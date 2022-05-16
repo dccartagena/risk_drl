@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import torch
 
 # Make environment
-env = gym.make("FrozenLake-v0") 
+env = gym.make("FrozenLake-v0") #TODO Need to make own environment
 
 # Random seed
 env.seed(0)
