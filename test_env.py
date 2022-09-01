@@ -1,11 +1,11 @@
 # Cliff environment class for safe deep reinforcement learning tests
 
 # Import gym library
-import gym
 from gym import Env
 from gym.spaces import Discrete, Box, Dict, MultiBinary, MultiDiscrete
 
 # Import general purpose and numerical computation libraries
+from scipy.stats import norm 
 import numpy as np
 import random
 import os
@@ -29,7 +29,7 @@ def get_initial_map(initial_position, goal_position, shape):
 
 # Class definition
 class cliff_env(Env):
-    def __init__(self, action_noise = 0.1, initial_risk = 0.01, initial_position = [3, 0], goal_position = [3, 3]):
+    def __init__(self, p_action_down = 0.01, initial_risk = 0.001, initial_position = [3, 0], goal_position = [3, 3]):
         # Define Action space:
         # 0: left
         # 1: up
@@ -48,7 +48,7 @@ class cliff_env(Env):
                                        'risk': Box(low = 0, high = 1, shape = (1,))})
         
         # Define action noise - Probability of going down
-        self.action_noise = action_noise
+        self.p_action_down = p_action_down
 
         # Define initial risk
         self.risk = initial_risk
@@ -59,7 +59,10 @@ class cliff_env(Env):
         # Define initial map
         self.map = get_initial_map(self.initial_position, self.goal_position, self.map_shape)
 
-    def move(self, action):
+    def move(self, new_action):
+
+        action = self. action_roulette(self, new_action)
+
         if action == 0:
             pass
         elif action == 1:
@@ -69,6 +72,20 @@ class cliff_env(Env):
         elif action == 3:
             pass
         pass
+    
+    def action_roulette(self, action):
+
+        # Compute roulette value
+        roulette_value = np.random.normal()
+
+        # Compute percentile value, i.e. Probability(Z <= z) ~ self.p_action_down
+        percentile = norm.ppf(self.p_action_down)
+
+        # Change new action to down if roulette_value > percentile
+        if (roulette_value > percentile):
+            self.action = action
+        else:
+            self.action = 3
 
     def step(self, action):
         # Apply action
@@ -91,5 +108,3 @@ class cliff_env(Env):
     def reset(self):
         # Initial state
         self.state = get_initial_map(self.initial_position, self.goal_position, self.observation_shape)
-
-        pass
