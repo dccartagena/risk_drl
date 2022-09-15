@@ -63,12 +63,13 @@ class cliff_env(Env):
         # Goal: 2
         # Fatal state: 3
         self.map = get_initial_map(self.initial_position, self.goal_position, self.map_shape)
+        self.map_render = self.map
 
     ###############################################
 
     def move(self, new_action):
 
-        action = self. action_roulette(self, action)
+        action = self.action_roulette(self, new_action)
 
         # Left
         if action == 0:
@@ -90,7 +91,7 @@ class cliff_env(Env):
     
     ###############################################
 
-    def action_roulette(self, action):
+    def action_roulette(self, new_action):
 
         # Compute roulette value
         roulette_value = np.random.normal()
@@ -100,7 +101,7 @@ class cliff_env(Env):
 
         # Change new action to down if roulette_value > percentile
         if (roulette_value > percentile):
-            self.action = action
+            self.action = new_action
         else:
             self.action = 3
 
@@ -112,11 +113,38 @@ class cliff_env(Env):
         state_transition_x = state_transition[0]
         state_transition_y = state_transition[1]
 
-        if (new_state_x + state_transition_x) < self.map_shape[0] and (new_state_x + state_transition_x) > self.map_shape[0]:
-            pass
-        
+        new_state_x = new_state_x + state_transition_x
+        new_state_y = new_state_y + state_transition_y
 
-        return new_state
+        if (((new_state_x) > 0 and (new_state_y) > 0) and 
+           (((new_state_x) < self.map_shape[0] and (new_state_y) < self.map_shape[1]))):
+            flag_valid = True
+            new_state = (new_state_x, new_state_y)
+        else:
+            flag_valid = False
+            new_state = last_state
+
+        return new_state, flag_valid
+
+    def get_reward(self):
+        # Compare the next state with the map
+        type_state = self.map[self.state]
+
+        # Setup flags
+        flag_fatal = False
+        done = True
+        
+        # Check if the state is either fatal, goal, or not
+        if type_state == 3:     # Fatal state
+            reward = -100
+            flag_fatal = True
+        elif type_state == 2:   # Goal state
+            reward = 10
+        else:                   # Normal state
+            reward = -1
+            done = False
+
+        return reward, flag_fatal, done
 
     ###############################################
 
@@ -127,21 +155,28 @@ class cliff_env(Env):
         # Get new state
         state_transition = self.move(action)
 
-        last_position = self.state
+        last_state = self.state
 
+        new_state, flag_valid = self.valid_move(self, last_state, state_transition)
+        
+        self.state = new_state
 
-
-        # Compute reward
-
-        # Episode termination signal
+        # Compute risk from current state to fatal state?
+        
+        # Compute reward, flag for fatal states, and done signal
+        reward, flag_fatal, done = self.get_reward(self)
         
         # Info
-        info = {}
-        pass
+        info = {flag_valid, flag_fatal}
+        
+        return self.state, reward, done, info
 
     ###############################################
 
     def render(self):
+        self.map_render[self.state] = 1
+        print('-current state-')
+        print(self.map_render)
         pass
 
     ###############################################
