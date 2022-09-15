@@ -53,10 +53,17 @@ class cliff_env(Env):
         self.p_action_down = p_action_down
 
         # Define initial risk
+        self.initial_risk = initial_risk
         self.risk = initial_risk
 
         # Define initial state
         self.state = (self.initial_position[0], self.initial_position[1])
+
+        # Define state transition
+        self.state_transition = {0: np.array([0, -1]),  # Left
+                                 1: np.array([-1, 0]),   # Up
+                                 2: np.array([0, 1]),   # Right
+                                 3: np.array([1, 0])}  # Down
 
         # Define initial map
         # Agent's position: 1
@@ -69,23 +76,9 @@ class cliff_env(Env):
 
     def move(self, new_action):
 
-        action = self.action_roulette(self, new_action)
+        action = self.action_roulette(new_action)
 
-        # Left
-        if action == 0:
-            state_transition = np.array([0, -1])
-
-        # Up
-        elif action == 1:
-            state_transition = np.array([1, 0])
-
-        # Right
-        elif action == 2:
-            state_transition = np.array([0, 1])
-
-        # Down
-        elif action == 3:
-            state_transition = np.array([-1, 0])
+        state_transition = self.state_transition.get(action)
 
         return state_transition
     
@@ -101,14 +94,16 @@ class cliff_env(Env):
 
         # Change new action to down if roulette_value > percentile
         if (roulette_value > percentile):
-            self.action = new_action
+            action = new_action
         else:
-            self.action = 3
+            action = 3
+
+        return action
 
     def valid_move(self, last_state, state_transition):
 
-        new_state_x = last_state['position_x']
-        new_state_y = last_state['position_y']
+        new_state_x = last_state[0]
+        new_state_y = last_state[1]
 
         state_transition_x = state_transition[0]
         state_transition_y = state_transition[1]
@@ -150,21 +145,21 @@ class cliff_env(Env):
 
     def step(self, action):
         # Apply action
-        self.action = self.action_roulette(self, action)
+        action = self.action_roulette(action)
         
         # Get new state
         state_transition = self.move(action)
 
         last_state = self.state
 
-        new_state, flag_valid = self.valid_move(self, last_state, state_transition)
+        new_state, flag_valid = self.valid_move(last_state, state_transition)
         
         self.state = new_state
 
         # Compute risk from current state to fatal state?
         
         # Compute reward, flag for fatal states, and done signal
-        reward, flag_fatal, done = self.get_reward(self)
+        reward, flag_fatal, done = self.get_reward()
         
         # Info
         info = {flag_valid, flag_fatal}
@@ -175,7 +170,7 @@ class cliff_env(Env):
 
     def render(self):
         self.map_render[self.state] = 1
-        print('-current state-')
+        print("current state: {}".format(self.state))
         print(self.map_render)
         pass
 
@@ -183,4 +178,13 @@ class cliff_env(Env):
 
     def reset(self):
         # Initial state
-        self.state = get_initial_map(self.initial_position, self.goal_position, self.observation_shape)
+        self.state = (self.initial_position[0], self.initial_position[1])
+        self.risk = self.initial_risk
+
+        
+        self.map_render = self.map
+#------DEBUGGING--------
+env = cliff_env()
+action = 0
+env.step(action)
+env.render()
