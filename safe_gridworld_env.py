@@ -111,7 +111,7 @@ class cliff_env(Env):
         new_state_x = new_state_x + state_transition_x
         new_state_y = new_state_y + state_transition_y
 
-        if (((new_state_x) > 0 and (new_state_y) > 0) and 
+        if (((new_state_x) >= 0 and (new_state_y) >= 0) and 
            (((new_state_x) < self.map_shape[0] and (new_state_y) < self.map_shape[1]))):
             flag_valid = True
             new_state = (new_state_x, new_state_y)
@@ -145,7 +145,7 @@ class cliff_env(Env):
 
     def step(self, action):
         # Apply action
-        action = self.action_roulette(action)
+        # action = self.action_roulette(action)
         
         # Get new state
         state_transition = self.move(action)
