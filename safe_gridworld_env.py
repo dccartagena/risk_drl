@@ -52,6 +52,9 @@ class cliff_env(Env):
         # Define Probability of action going down
         self.p_action_down = p_action_down
 
+        # Compute percentile value, i.e. Probability(Z <= z) ~ self.p_action_down
+        self.percentile = norm.ppf(self.p_action_down)
+
         # Define initial risk
         self.initial_risk = initial_risk
         self.risk = initial_risk
@@ -88,12 +91,9 @@ class cliff_env(Env):
 
         # Compute roulette value
         roulette_value = np.random.normal()
-
-        # Compute percentile value, i.e. Probability(Z <= z) ~ self.p_action_down
-        percentile = norm.ppf(self.p_action_down)
-
+        
         # Change new action to down if roulette_value > percentile
-        if (roulette_value > percentile):
+        if (roulette_value > self.percentile):
             action = new_action
         else:
             action = 3
@@ -111,8 +111,8 @@ class cliff_env(Env):
         new_state_x = new_state_x + state_transition_x
         new_state_y = new_state_y + state_transition_y
 
-        if (((new_state_x) >= 0 and (new_state_y) >= 0) and 
-           (((new_state_x) < self.map_shape[0] and (new_state_y) < self.map_shape[1]))):
+        if ((new_state_x >= 0) and (new_state_y >= 0) and 
+            (new_state_x < self.map_shape[0]) and (new_state_y < self.map_shape[1])):
             flag_valid = True
             new_state = (new_state_x, new_state_y)
         else:
@@ -183,8 +183,10 @@ class cliff_env(Env):
 
         
         self.map_render = self.map
+
 #------DEBUGGING--------
-env = cliff_env()
-action = 0
-env.step(action)
-env.render()
+# env = cliff_env()
+# action = 1
+# env.step(action)
+# env.render()
+
