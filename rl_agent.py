@@ -16,12 +16,19 @@ class DQN:
     def forward(self):
         pass
 
-class agent(DQN):
+class replay_memory:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.memory
+        pass
+
+class agent():
 
     # Initialize RL agent
     def __init__(self, n_features, n_actions, lr = 0.9999, gamma = 0.9999, param_reg = 0.5):
 
-        super().__init__(n_features, n_actions)
+        self.n_features = n_features
+        self.n_actions = n_actions
 
         self.state = []
         self.action = []
