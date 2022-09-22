@@ -2,7 +2,7 @@
 
 # Import gym library
 from gym import Env
-from gym.spaces import Discrete, Box, Dict, MultiBinary, MultiDiscrete
+from gym.spaces import Discrete, MultiDiscrete
 
 # Import general purpose and numerical libraries
 from scipy.stats import norm 
@@ -39,15 +39,14 @@ class cliff_env(Env):
         self.initial_position = initial_position
         self.goal_position = goal_position
 
-        # Define observation space: 
+        # Define observation space: (x, y) position in the map
         # position x in the map
         # position y in the map
         self.map_shape = (4, 7)
-        self.observation_space = Dict({'position_x': Discrete(self.map_shape[0]), 
-                                       'position_y': Discrete(self.map_shape[1])})
+        self.observation_space = MultiDiscrete([self.map_shape[0], self.map_shape[0]])
 
         # risk with respect to fatal state
-        self.risk = Box(low = 0, high = 1, shape = (1,))
+        self.risk = initial_risk
         
         # Define Probability of action going down
         self.p_action_down = p_action_down
@@ -145,7 +144,7 @@ class cliff_env(Env):
 
     def step(self, action):
         # Apply action
-        # action = self.action_roulette(action)
+        action = self.action_roulette(action)
         
         # Get new state
         state_transition = self.move(action)
@@ -181,7 +180,6 @@ class cliff_env(Env):
         self.state = (self.initial_position[0], self.initial_position[1])
         self.risk = self.initial_risk
 
-        
         self.map_render = self.map
 
 #------DEBUGGING--------
