@@ -21,6 +21,11 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 #########################################
+# Functions for plotting
+
+
+
+#########################################
 
 # Define environment
 env = cliff_env()
@@ -51,7 +56,7 @@ model_A2C.learn(total_timesteps = 1000)
 #########################################
 
 # Test environment in random environment
-episodes = 1
+episodes = 5
 
 for episode in range(1, episodes + 1):
     # Reset state in the environment and get initial observations

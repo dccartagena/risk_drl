@@ -5,6 +5,8 @@ import torch.functional as F
 
 import numpy as np
 
+from shortest_path import tree
+
 class DQN:
     def __init__(self, n_features, n_actions):
         self.n_features = n_features
@@ -19,8 +21,18 @@ class DQN:
 class replay_memory:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.memory
+        # self.memory
         pass
+    
+    def store(self):
+        pass
+
+    def sample(self):
+        pass
+
+    def __len__():
+        pass
+    
 
 class agent():
 
