@@ -10,8 +10,11 @@ from collections import deque
 
 from shortest_path import tree
 
-class DQN:
+class DQN(nn.Module):
     def __init__(self, n_features, n_actions):
+        # Initialize nn Module
+        super(DQN, self).__init__()
+        
         # Store feature and actions
         self.n_features = n_features
         self.n_actions = n_actions
@@ -55,14 +58,6 @@ class replay_memory:
         # length of memory
         return len(self.memory)
 
-class DQN(nn.Module):
-    def __init__(self):
-        super(DQN, self).__init__()
-        pass
-        
-    def forward(self, ):
-        pass
-
 class agent(DQN):
 
     # Initialize RL agent
@@ -85,19 +80,10 @@ class agent(DQN):
         self.gamma = gamma  # Discount factor
         self.beta = beta    # Regularization parameter
         pass
-    
-
-    # Replay memory
-    def replay_memory(self):
-        pass
 
     # Compute risk from current state to fatal state
     def get_risk(self):
         # Compute shortest path
-        pass
-    
-    # Computer shortest path to fatal state
-    def get_shortest_path(self):
         pass
 
     # Compute reward + risk regularization
@@ -111,10 +97,6 @@ class agent(DQN):
 
     # Compute action
     def get_action(self):
-        pass
-
-    # Train agent
-    def train(self, env):
         pass
     
     # Optimize NN - Backpropagation
