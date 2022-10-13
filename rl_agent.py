@@ -12,14 +12,27 @@ from shortest_path import tree
 
 class DQN:
     def __init__(self, n_features, n_actions):
+        # Store feature and actions
         self.n_features = n_features
         self.n_actions = n_actions
 
         # Define structure for NN
+        #TODO Define an adequate architecture
+        self.architecture = nn.Sequential(
+            nn.Linear(self.n_features, 32),
+            nn.Dropout(p=0.2),
+            nn.ReLU(),
+            nn.Linear(32, 16),
+            nn.Dropout(p=0.2),
+            nn.ReLU(),
+            nn.Linear(16, self.n_actions),
+        )
         pass
 
-    def forward(self):
-        pass
+    def forward(self, input):
+        #TODO Need softmax?
+        logits = self.architecture(input) 
+        return logits
 
 class replay_memory:
 # Store the tuples (state, action, next state, reward) that the agent observes.
@@ -37,13 +50,20 @@ class replay_memory:
     def sample(self, batch_size):
         # Sample transition from memory
         return random.sample(self.memory, batch_size)
-        
 
     def __len__(self):
         # length of memory
         return len(self.memory)
 
-class agent(nn.Module):
+class DQN(nn.Module):
+    def __init__(self):
+        super(DQN, self).__init__()
+        pass
+        
+    def forward(self, ):
+        pass
+
+class agent(DQN):
 
     # Initialize RL agent
     def __init__(self, n_features, n_actions, lr = 0.9999, gamma = 0.9999, beta = 0.5):
@@ -64,8 +84,8 @@ class agent(nn.Module):
         self.lr = lr        # Learning rate
         self.gamma = gamma  # Discount factor
         self.beta = beta    # Regularization parameter
-
         pass
+    
 
     # Replay memory
     def replay_memory(self):
@@ -95,6 +115,10 @@ class agent(nn.Module):
 
     # Train agent
     def train(self, env):
+        pass
+    
+    # Optimize NN - Backpropagation
+    def optimize_model():
         pass
     
 
