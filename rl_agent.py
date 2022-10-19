@@ -20,7 +20,7 @@ class DQN(nn.Module):
         self.n_actions = n_actions
 
         # Define structure for NN
-        #TODO Define an adequate architecture
+        #TODO Define an adequate architecture - Maybe LSTM or GRU?
         self.architecture = nn.Sequential(
             nn.Linear(self.n_features, 32),
             nn.Dropout(p=0.2),
@@ -77,7 +77,7 @@ class agent(DQN):
 
         # Store learning parametres
         self.lr = lr        # Learning rate
-        self.gamma = gamma  # Discount factor
+        self.gamma = gamma  # Discounted factor
         self.beta = beta    # Regularization parameter
         pass
 
@@ -101,7 +101,4 @@ class agent(DQN):
     
     # Optimize NN - Backpropagation
     def optimize_model():
-        pass
-    
-
-    
+        pass    
