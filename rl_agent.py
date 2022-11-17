@@ -101,4 +101,5 @@ class agent(DQN):
     
     # Optimize NN - Backpropagation
     def optimize_model():
+        
         pass    
