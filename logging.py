@@ -41,7 +41,7 @@ class data_logger:
             self.next_state = 0
             self.reward = 0
         else:
-            passzfdxgchcfdzsd
+            pass
         
         # Save initial parameters
         pass

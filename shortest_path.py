@@ -9,13 +9,6 @@ class graph:
         self.list_neighbors = list_neighbors
         pass
     
-    def get_min_distance(self):
-        min_dist = np.inf
-        
-        for v in self.get_len():
-            if 
-        pass
-    
     def shortest_path(self, source):
         '''
         for each vertex v in Graph.Vertices:
@@ -44,9 +37,11 @@ class graph:
             for node in set_nodes:
                 if dist_nodes[node] < min(dist_nodes):
                     current_node = set_nodes.pop(node)
-                    
                 
-            
+                for node in self.list_neighbors[current_node]:
+                    new_dist = dist_nodes[current_node] + dist_nodes[node]
+                    if new_dist < dist_nodes[node]:
+                        dist_nodes[node] = new_dist
         pass
     
     def len_vertex_set(self):

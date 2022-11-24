@@ -8,6 +8,8 @@ from gym.spaces import Discrete, MultiDiscrete
 from scipy.stats import norm 
 import numpy as np
 
+from shortest_path import graph
+
 def get_initial_map(initial_position, goal_position, shape):
     # Define cliff positions
     cliff_position = ((3, 2), (3, 3), (3, 4))
@@ -182,6 +184,19 @@ class cliff_env(Env):
 
         self.map_render = self.map
 
+    def get_risk(self, current_state):
+        # Make graph
+        nodes = self.map_shape[0] * self.map_shape[1]
+        info = map.flatten()
+        adj_matrix = [] #Need a make matrix function based on state transition and policy
+        list_neighbors = [] # Need a function to generate automatically...Do we need this?
+        
+        source = current_state
+        graph_map = graph(nodes, info, adj_matrix, list_neighbors)
+        
+        self.risk = graph_map.shortest_path(source)
+        return self.risk
+    
 #------DEBUGGING--------
 # env = cliff_env()
 # action = 1

@@ -8,7 +8,7 @@ import random
 
 from collections import deque
 
-from shortest_path import tree
+from shortest_path import graph
 
 class DQN(nn.Module):
     def __init__(self, n_features, n_actions):
@@ -82,18 +82,22 @@ class agent(DQN):
         pass
 
     # Compute risk from current state to fatal state
-    def get_risk(self):
-        # Compute shortest path
+    def get_risk(self, env, current_state):
+        self.risk = env.get_risk(self, current_state)
         pass
 
     # Compute reward + risk regularization
-    def get_reward(self):
+    def get_reward(self, env_reward):
         # Get new reward
 
         # Get risk from current state
 
         # Compute regularized reward: reward + risk
+        self.reward = env_reward + self.beta * self.risk
         pass
+
+    def decay_beta(self):
+        self.beta = 0.99 * self.beta
 
     # Compute action
     def get_action(self):
