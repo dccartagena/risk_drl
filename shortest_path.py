@@ -2,11 +2,51 @@ import numpy as np
 
 # TODO Define graph structure
 class graph:
-    def __init__(self, node, info, cost, adj_matrix):
-        self.node = node
-        self.info = info
-        self.cost = cost
-        self.adj_matrix = adj_matrix
+    def __init__(self, node, info, adj_matrix, list_neighbors):
+        self.node = node # node = [1, 2, 3, ...]
+        self.info = info # info = [[0, 0], [0, 1], ...]
+        self.adj_matrix = adj_matrix # How to find the adj_matrix
+        self.list_neighbors = list_neighbors
+        pass
+    
+    def get_min_distance(self):
+        min_dist = np.inf
+        
+        for v in self.get_len():
+            if 
+        pass
+    
+    def shortest_path(self, source):
+        '''
+        for each vertex v in Graph.Vertices:
+            dist[v] ← INFINITY
+            add v to Q
+        dist[source] ← 0
+        '''
+        dist_nodes = np.inf * np.ones(self.get_len())
+        set_nodes = self.node
+        
+        dist_nodes[source] = 0
+        
+        '''
+        while Q is not empty:
+            u ← vertex in Q with min dist[u]
+            remove u from Q
+ 
+            for each neighbor v of u still in Q:
+                alt ← dist[u] + Graph.Edges(u, v)
+                if alt < dist[v]:
+                    dist[v] ← alt
+                    prev[v] ← u
+        '''
+        
+        while set_nodes:
+            for node in set_nodes:
+                if dist_nodes[node] < min(dist_nodes):
+                    current_node = set_nodes.pop(node)
+                    
+                
+            
         pass
     
     def len_vertex_set(self):
@@ -22,7 +62,6 @@ class graph:
         pass
     
     def remove_node(self, location):
-        
         self.remove_edge(location)
         pass
     
@@ -38,82 +77,45 @@ class graph:
     def get_info(self, node):
         return self.info(node)
 
-# TODO Use for Shortest path
-class tree:
-    def __init__(self, graph, source):
-        self.graph = graph
-        self.sourse = []
-        self.ancestor = []
-        self.descendant = []
-        
-        self.set_source(source)
-        pass
+node = range(3*3)
+'''
+Graph
+0 - 1 - 2
+|   |   |
+3 - 4 - 5
+|   |   |
+6 - 7 - 8
 
-    def set_source(self, source):
-        '''
-        # Initialization
-        for each vertex v in graph.verices:
-            dist[v] <- infinity
-            prev[v] <- undefined
-            
-            # Create the vertex set
-            add v to Q
-        '''
-        self.sourse = source
-        
-        self.ancestor = np.nan * np.ones(self.graph.get_len())
-        self.dist = np.inf * np.ones(self.graph.get_len())
-        
-        self.set_nodes = self.graph.node
-        
-        '''
-        # Distance from source to source    
-        dist[source] <- 0
-        '''
-        self.dist[self.source] = 0
+Assume 7 is fatal state
+'''
+info = np.matrix([[0, 0],[0, 1], [0, 2],
+                  [1, 0],[1, 1], [1, 2],
+                  [2, 0],[2, 1], [2, 2]])
 
-    def add_descendant(self, descendant):
-        self.descendant.append(descendant)
+# Connections
+adj_matrix = np.matrix([[0, 1, 0, 1, 0, 0, 0, 0, 0],
+                        [1, 0, 1, 0, 1, 0, 0, 0, 0],
+                        [0, 1, 0, 0, 0, 1, 0, 0, 0],
+                        [1, 0, 0, 0, 1, 0, 1, 0, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1, 0],
+                        [0, 0, 1, 0, 1, 0, 0, 0, 1],
+                        [0, 0, 0, 1, 0, 0, 0, 1, 0],
+                        [0, 0, 0, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 1, 0, 1, 0]])
 
-    def set_ancestor(self, ancestor):
-        self.ancestor = ancestor
+list_neighbors = ((1, 3), 
+                  (0, 2, 4),
+                  (1, 4, 5),
+                  (0, 4, 6),
+                  (1, 3, 5, 7),
+                  (2, 4, 8),
+                  (3, 7),
+                  (4, 6, 8),
+                  (5, 7))
 
-    def get_source(self):
-        return self.source
+# Cost to fatal state
+adj_matrix = np.matrix([[0]])
 
-    def get_ancestor(self):
-        return self.ancestor
+sample_graph = graph(node, info, adj_matrix, list_neighbors)
 
-    def get_descendant(self):
-        return self.descendant
-
-    def short_path(self):
-        '''
-        Pseudocode for Dijkstra algorithm
-        input: graph, source_vertex
-        output: vector_distance, vector_previous_nodes
-        '''      
-        
-        '''
-        # Compute shortest path
-        while Q is non empty:
-            # Get new vertex to compute
-            u <- vertex in Q with min dist[u]
-            remove u from Q
-            
-            # Compute distance from current vertex to neighbors
-            for each neighbor v of u still in Q:
-                alt <- dist[u] + graph.edges(u, v)
-                if alt < dist[v]:
-                    dist[v] <- alt
-                    prev[v] <- u
-                    
-        return dist[], prev[]
-        '''
-        while self.set_nodes:
-            node = self.nodes.pop()
-            
-            for 
-            pass 
-        
-        pass
+sample_graph.shortest_path(0)
