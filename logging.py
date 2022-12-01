@@ -11,39 +11,36 @@ class data_logger:
     
     # Initialise data logger - Create or modify log-file
     # CSV file preferred 
-    def __init__(self, save_dir = [], name_file = [], initial_transition = []):
+    def __init__(self, save_dir = './safe_rl_experiments', name_file = [], initial_transition = []):
+        
         # Check if logging folder exist - Otherwise, create one
-        if save_dir == 0:
-            # Check if there are other folders with default name
-            n_folder = 0
+        if os.path.isdir(save_dir) == 0:
+            os.makedir(save_dir)
+        
+        # # Check if logging file exist - Otherwise, create one
+        # if name_file == 0:
+        #     # Check if there are other folders with default name
+        #     n_file = 0
             
-            # Name the new log folder
-            save_dir = './new_experiment_{}'.format(n_folder)
+        #     # Name the new log folder
+        #     name_file = 'experiment_log_{}.csv'.format(n_file)
         
-        # Check if logging file exist - Otherwise, create one
-        if name_file == 0:
-            # Check if there are other folders with default name
-            n_file = 0
-            
-            # Name the new log folder
-            name_file = 'experiment_log_{}.csv'.format(n_file)
+        # # File path for logger
+        # file_path = os.path.join(save_dir, name_file)
         
-        # File path for logger
-        file_path = os.path.join(save_dir, name_file)
+        # # Define parameters to log
+        # self.episode = 0
+        # self.step = 0
         
-        # Define parameters to log
-        self.episode = 0
-        self.step = 0
+        # if initial_transition == 0:
+        #     self.state = 0
+        #     self.action = 0
+        #     self.next_state = 0
+        #     self.reward = 0
+        # else:
+        #     pass
         
-        if initial_transition == 0:
-            self.state = 0
-            self.action = 0
-            self.next_state = 0
-            self.reward = 0
-        else:
-            pass
-        
-        # Save initial parameters
+        # # Save initial parameters
         pass
     
     def log_step(self):
@@ -58,3 +55,5 @@ class data_logger:
     
     def plot_results():
         pass
+    
+logger = data_logger()

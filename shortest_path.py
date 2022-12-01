@@ -87,7 +87,7 @@ info = np.matrix([[0, 0],[0, 1], [0, 2],
                   [1, 0],[1, 1], [1, 2],
                   [2, 0],[2, 1], [2, 2]])
 
-# Connections
+# Connections - P(S'|S) - Need to compute it, see report for reference, remember we know the policy
 adj_matrix = np.matrix([[0, 1, 0, 1, 0, 0, 0, 0, 0],
                         [1, 0, 1, 0, 1, 0, 0, 0, 0],
                         [0, 1, 0, 0, 0, 1, 0, 0, 0],
@@ -95,7 +95,7 @@ adj_matrix = np.matrix([[0, 1, 0, 1, 0, 0, 0, 0, 0],
                         [0, 1, 0, 1, 0, 1, 0, 1, 0],
                         [0, 0, 1, 0, 1, 0, 0, 0, 1],
                         [0, 0, 0, 1, 0, 0, 0, 1, 0],
-                        [0, 0, 0, 0, 1, 0, 1, 0, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 1, 0], # Fatal row - row full of zeros or 1 in the diagonal
                         [0, 0, 0, 0, 0, 1, 0, 1, 0]])
 
 list_neighbors = ((1, 3), 

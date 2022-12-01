@@ -87,11 +87,12 @@ class agent(DQN):
         pass
 
     # Compute reward + risk regularization
-    def get_reward(self, env_reward):
+    def get_reward(self, env_reward, env, current_state):
         # Get new reward
 
         # Get risk from current state
-
+        self.get_risk(env, current_state)
+        
         # Compute regularized reward: reward + risk
         self.reward = env_reward + self.beta * self.risk
         pass
